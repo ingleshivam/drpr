@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model iq140_contact {
+  id                      Int       @id @default(autoincrement())
+  companyname             String?   @db.VarChar(200)
+  contact_firstname       String?   @db.VarChar(200)
+  contact_middlename      String?   @db.VarChar(200)
+  contact_lastname        String?   @db.VarChar(200)
+  contact_gender          String?   @db.VarChar(100)
+  contact_maritalstatus   String?   @db.VarChar(100)
+  contact_language        String?   @db.VarChar(100)
+  contact_title           String?   @db.VarChar(200)
+  contact_email           String?   @db.VarChar(100)
+  contact_additionalemail String?   @db.VarChar(100)
+  contact_note            String?   @db.VarChar(500)
+  contact_type_id         Int?
+  contact_dob             DateTime? @db.Timestamp(6)
+  contact_website         String?   @db.VarChar(100)
+  status                  Int?
+  currency                String?   @db.VarChar(100)
+  paymentterms            String?   @db.VarChar(20)
+  contact_ssnum           String?   @db.VarChar(100)
+  firm_id                 Int?
+  c_user                  Int?
+  c_timestamp             DateTime? @db.Timestamp(6)
+  u_user                  Int?
+  u_timestamp             DateTime? @db.Timestamp(6)
+  record_guid             String?   @db.VarChar(50)
+}
+
+model iq140_contact_address {
+  id           Int       @id @default(autoincrement())
+  contact_id   Int?
+  address_type String?   @db.VarChar(10)
+  address1     String?   @db.VarChar(300)
+  address2     String?   @db.VarChar(300)
+  city         String?   @db.VarChar(300)
+  state        String?   @db.VarChar(300)
+  country      String?   @db.VarChar(300)
+  zip          String?   @db.VarChar(50)
+  status       Int?
+  firm_id      Int?
+  c_user       Int?
+  c_timestamp  DateTime? @db.Timestamp(6)
+  u_user       Int?
+  u_timestamp  DateTime? @db.Timestamp(6)
+  record_guid  String?   @db.VarChar(50)
+}
+
+model iq140_contact_phone {
+  id              Int       @id @default(autoincrement())
+  contact_id      Int?
+  phonetype       String?   @db.VarChar(10)
+  phonenumber     String?   @db.VarChar(15)
+  phoneextenstion String?   @db.VarChar(5)
+  status          Int?
+  firm_id         Int?
+  c_user          Int?
+  c_timestamp     DateTime? @db.Timestamp(6)
+  u_user          Int?
+  u_timestamp     DateTime? @db.Timestamp(6)
+  record_guid     String?   @db.VarChar(50)
+}
+
+model iq140_contact_type {
+  id           Int       @id @default(autoincrement())
+  contact_type String?   @db.VarChar(100)
+  status       Int?
+  orderby      Int?
+  source_id    Int?
+  firm_id      Int?
+  c_user       Int?
+  c_timestamp  DateTime? @db.Timestamp(6)
+  u_user       Int?
+  u_timestamp  DateTime? @db.Timestamp(6)
+  record_guid  String?   @db.VarChar(50)
+}
+
+model iq140_firms {
+  id                Int       @id @default(autoincrement())
+  firm_owner_userid Int?
+  firm_guid         String?   @db.VarChar(100)
+  firm_name         String?   @db.VarChar(200)
+  firm_email        String?   @db.VarChar(100)
+  firm_phone        String?   @db.VarChar(50)
+  firm_address      String?   @db.VarChar(300)
+  firm_address1     String?   @db.VarChar(300)
+  firm_county       Int?
+  firm_state        String?   @db.VarChar(100)
+  firm_city         String?   @db.VarChar(100)
+  firm_zip          String?   @db.VarChar(100)
+  c_user            Int?
+  c_timestamp       DateTime? @db.Timestamp(6)
+  u_user            Int?
+  u_timestamp       DateTime? @db.Timestamp(6)
+  record_guid       String?   @db.VarChar(50)
+}
+
+model iq140_firms_license_history {
+  id                Int       @id @default(autoincrement())
+  licenseid         Int?
+  license_startdate DateTime? @db.Timestamp(6)
+  license_enddate   DateTime? @db.Timestamp(6)
+  firm_id           Int?
+  c_user            Int?
+  c_timestamp       DateTime? @db.Timestamp(6)
+  u_user            Int?
+  u_timestamp       DateTime? @db.Timestamp(6)
+  record_guid       String?   @db.VarChar(50)
+}
+
+model iq140_otp {
+  id                     Int       @id @default(autoincrement())
+  user_id                Int?
+  otp                    String?   @db.VarChar(40)
+  genrate_timestamp      DateTime? @db.Timestamp(6)
+  expire_timestamp       DateTime? @db.Timestamp(6)
+  is_used                Int?
+  validated_at_timestamp DateTime? @db.Timestamp(6)
+  firm_id                Int?
+  record_guid            String?   @db.VarChar(50)
+}
+
+model iq140_roles {
+  id          Int       @id @default(autoincrement())
+  role_name   String?   @db.VarChar(50)
+  status      String?   @db.VarChar(2)
+  orderby     Int?
+  firm_id     Int?
+  c_user      Int?
+  c_timestamp DateTime? @db.Timestamp(6)
+  u_user      Int?
+  u_timestamp DateTime? @db.Timestamp(6)
+  record_guid String?   @db.VarChar(50)
+}
+
+model iq140_user {
+  user_id                         Int       @id @default(autoincrement())
+  email                           String?   @db.VarChar(250)
+  firstname                       String?   @db.VarChar(100)
+  lastname                        String?   @db.VarChar(100)
+  password                        String?   @db.VarChar(400)
+  title                           String?   @db.VarChar(100)
+  supervisor_user_id              Int?
+  active_flag                     String?   @db.VarChar(2)
+  role_id                         Int?
+  isfirstlogin                    Int?
+  language                        String?   @db.VarChar(100)
+  last_password_timestamp         DateTime? @db.Timestamp(6)
+  sessionid                       String?   @db.VarChar(200)
+  last_successful_login_timestamp DateTime? @db.Timestamp(6)
+  last_failed_login_timestamp     DateTime? @db.Timestamp(6)
+  wrongattempts                   Int?
+  lock_timestamp                  DateTime? @db.Timestamp(6)
+  agreement_accepted              String?   @db.VarChar(4)
+  two_factor_flag                 String?   @db.VarChar(2)
+  two_factor_deliver_method       String?   @db.VarChar(2)
+  two_factor_deliver_address      String?   @db.VarChar(500)
+  contact_number                  String?   @db.VarChar(30)
+  firm_id                         Int?
+  c_user                          Int?
+  c_timestamp                     DateTime? @db.Timestamp(6)
+  u_user                          Int?
+  u_timestamp                     DateTime? @db.Timestamp(6)
+  record_guid                     String?   @db.VarChar(50)
+}
+
+model iq140_user_password_history {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  password    String?   @db.VarChar(400)
+  firm_id     Int?
+  c_user      Int?
+  c_timestamp DateTime? @db.Timestamp(6)
+  u_user      Int?
+  u_timestamp DateTime? @db.Timestamp(6)
+  record_guid String?   @db.VarChar(50)
+}
+
+model iq140_user_tracking {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  url         String?   @db.VarChar(200)
+  data_id     Int?
+  firm_id     Int?
+  c_user      Int?
+  c_timestamp DateTime? @db.Timestamp(6)
+  u_user      Int?
+  u_timestamp DateTime? @db.Timestamp(6)
+  record_guid String?   @db.VarChar(50)
+}
